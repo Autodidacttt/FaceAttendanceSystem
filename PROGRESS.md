@@ -9,10 +9,10 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] PROGRESS.md
 
 ## Phase 1 — Scaffold
-- [ ] Add EntityFramework 6.4.4 (packages.config) and restore via MSBuild
-- [ ] Remove template Home/About/Contact. Create folders: Data, Models, ViewModels, Services, Infrastructure, Scripts/app
-- [ ] Web.config: `FaceAttendanceDB` connection string (Integrated Security), forms auth (HttpOnly, sliding 30 min), customErrors. Release transform: `requireSSL`, customErrors On
-- [ ] Build ✔
+- [x] Add EntityFramework 6.4.4 (packages.config) and restore via MSBuild
+- [x] Remove template Home/About/Contact. Create folders: Data, Models, ViewModels, Services, Infrastructure, Scripts/app
+- [x] Web.config: `FaceAttendanceDB` connection string (Integrated Security), forms auth (HttpOnly, sliding 30 min), customErrors. Release transform: `requireSSL`, customErrors On
+- [x] Build ✔
 
 ## Phase 2 — Data layer
 - [ ] Entities: User, Student, Teacher, Subject, TeacherSubject, FaceEnrollment, ClassSession, Attendance, AuditLog, AppSetting (threshold)
