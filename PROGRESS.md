@@ -74,9 +74,10 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] vstest.console passes ✔ (37 tests)
 
 ## Phase 10 — Verify and document
-- [ ] Clean Debug + Release build
-- [ ] Smoke test on IIS Express (HTTPS): log in as each role, cross-role pages return 403
-- [ ] README: prerequisites, first run, demo accounts, how enrollment and recognition work, threshold tuning, liveness limits, troubleshooting, screenshot placeholders
+- [x] Clean Debug + Release build
+- [x] Smoke test on IIS Express (HTTPS): log in as each role, cross-role pages return 403
+- [x] README: prerequisites, first run, demo accounts, how enrollment and recognition work, threshold tuning, liveness limits, troubleshooting, screenshot placeholders
+- [x] Extra: headless-Edge run with a fake camera: real enroll → live recognition, unknown face stays unknown, still photo blocked by liveness
 
 ## Phase 11 — GitHub
 - [ ] `git status` check: no secrets, .mdf files, snapshots or reference files
