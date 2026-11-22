@@ -298,6 +298,26 @@
   <ItemGroup>
     <Compile Include="Infrastructure\UiFormat.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Services\FaceMatcher.cs" />
+    <Compile Include="ViewModels\EnrollmentViewModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\face-models\face_landmark_68_model-weights_manifest.json" />
+    <Content Include="Content\face-models\face_landmark_68_model.bin" />
+    <Content Include="Content\face-models\face_recognition_model-weights_manifest.json" />
+    <Content Include="Content\face-models\face_recognition_model.bin" />
+    <Content Include="Content\face-models\tiny_face_detector_model-weights_manifest.json" />
+    <Content Include="Content\face-models\tiny_face_detector_model.bin" />
+    <Content Include="Scripts\app\camera.js" />
+    <Content Include="Scripts\app\common.js" />
+    <Content Include="Scripts\app\enroll.js" />
+    <Content Include="Scripts\lib\face-api\LICENSE.txt" />
+    <Content Include="Scripts\lib\face-api\face-api.min.js" />
+    <Content Include="Views\Enrollment\Enroll.cshtml" />
+    <Content Include="Views\Enrollment\Index.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

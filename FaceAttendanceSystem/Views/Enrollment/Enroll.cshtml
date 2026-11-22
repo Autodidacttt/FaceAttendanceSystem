@@ -1,0 +1,82 @@
+@model EnrollPageViewModel
+@{
+    ViewBag.Title = "Enroll " + Model.RollNumber;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Enrollment", new { id = "" })">Face enrollment</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.RollNumber</li>
+    </ol>
+</nav>
+
+@Html.AntiForgeryToken()
+
+<div id="enroll-app" class="row g-4"
+     data-student-id="@Model.StudentId"
+     data-save-url="@Url.Action("Save", "Enrollment")"
+     data-models-url="@Url.Content("~/Content/face-models")"
+     data-required-samples="@Model.RequiredSamples">
+
+    <div class="col-lg-7">
+        <div class="camera-wrap mb-2">
+            <video id="enrollVideo" autoplay muted playsinline></video>
+            <canvas id="enrollCanvas" aria-hidden="true"></canvas>
+        </div>
+        <div id="enrollStatus" class="camera-status small text-muted" role="status" aria-live="polite">Camera is off.</div>
+        <div id="enrollHint" class="camera-status small" aria-live="polite"></div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <button type="button" id="btnStart" class="btn btn-outline-primary">Start camera</button>
+            <button type="button" id="btnCapture" class="btn btn-primary" disabled>Capture samples</button>
+            <button type="button" id="btnReset" class="btn btn-outline-secondary" disabled>Reset</button>
+            <button type="button" id="btnSave" class="btn btn-success" disabled>Save enrollment</button>
+            <button type="button" id="btnStop" class="btn btn-outline-danger ms-auto" disabled>Stop camera</button>
+        </div>
+        <div id="enrollResult" class="alert mt-3" role="alert" hidden></div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1 class="h5 mb-1">@Model.FullName</h1>
+                <div class="text-muted small mb-3">@Model.RollNumber &middot; @Model.Department &middot; Semester @Model.Semester</div>
+                @if (!Model.IsActive)
+                {
+                    <div class="alert alert-warning small py-2">This account is inactive, so the student won't appear in class rosters.</div>
+                }
+                <div class="mb-2">Saved face samples: <strong id="existingCount">@Model.ExistingSamples</strong> <span class="text-muted small">(max @Model.MaxSamples)</span></div>
+                <div class="mb-1 small text-muted">This capture:</div>
+                <div id="sampleDots" class="sample-dots" role="img"></div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body small">
+                <h2 class="h6">Tips for a good enrollment</h2>
+                <ul class="mb-0 ps-3">
+                    <li>Only the student should be in front of the camera.</li>
+                    <li>Face a window or lamp; avoid strong light behind the head.</li>
+                    <li>Remove sunglasses or masks; normal glasses are fine.</li>
+                    <li>Turn the head slightly between samples so they cover small angle changes.</li>
+                    <li>A sample is taken only when the box is <span class="text-success fw-semibold">green</span>.</li>
+                </ul>
+                <p class="mt-2 mb-0 text-muted">Only face descriptors (128 numbers per sample) are stored &mdash; no photos.</p>
+            </div>
+        </div>
+
+        @if (Model.ExistingSamples > 0)
+        {
+            using (Html.BeginForm("Delete", "Enrollment", new { id = Model.StudentId }, FormMethod.Post,
+                new { onsubmit = "return confirm('Delete all saved face samples for this student? They will not be recognised until enrolled again.');" }))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-danger btn-sm">Delete all saved samples</button>
+            }
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/lib/face-api/face-api.min.js")"></script>
+    @Scripts.Render("~/bundles/face-enroll")
+}

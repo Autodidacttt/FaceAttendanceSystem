@@ -41,11 +41,11 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 5 — Face enrollment
-- [ ] face-api.js + models (tinyFaceDetector, faceLandmark68Net, faceRecognitionNet) stored locally
-- [ ] Scripts/app/camera.js, enroll.js: live box, capture only when exactly 1 face with a good score, 5 samples
-- [ ] EnrollmentController: page, `POST /Enrollment/Save` (AJAX + anti-forgery), count, delete (audited)
-- [ ] Server-side descriptor validation (128 finite floats, ≤ 20 faces)
-- [ ] Build ✔
+- [x] face-api.js + models (tinyFaceDetector, faceLandmark68Net, faceRecognitionNet) stored locally
+- [x] Scripts/app/camera.js, enroll.js: live box, capture only when exactly 1 face with a good score, 5 samples
+- [x] EnrollmentController: page, `POST /Enrollment/Save` (AJAX + anti-forgery), count, delete (audited)
+- [x] Server-side descriptor validation (128 finite floats, ≤ 20 faces)
+- [x] Build ✔
 
 ## Phase 6 — Teacher: sessions and live attendance
 - [ ] Teacher dashboard: my subjects, today's sessions
