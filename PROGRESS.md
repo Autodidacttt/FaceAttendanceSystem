@@ -80,7 +80,7 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Extra: headless-Edge run with a fake camera: real enroll → live recognition, unknown face stays unknown, still photo blocked by liveness
 
 ## Phase 11 — GitHub
-- [ ] `git status` check: no secrets, .mdf files, snapshots or reference files
-- [ ] `gh auth status` (gh must be installed + logged in by you)
+- [x] `git status` check: no secrets, .mdf files, snapshots or reference files
+- [ ] `gh auth status` (gh must be installed + logged in by you) — **blocked 2026-11-22: gh reports "not logged into any GitHub hosts" from Claude's shells**
 - [ ] `gh repo create Autodidacttt/FaceAttendanceSystem --public --source . --remote origin --push` (never force-push)
 - [ ] Summary: what works, manual tests, known limitations
