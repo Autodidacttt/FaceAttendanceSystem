@@ -48,15 +48,15 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 6 — Teacher: sessions and live attendance
-- [ ] Teacher dashboard: my subjects, today's sessions
-- [ ] SessionController: start (own subjects only), end, summary (present/absent)
-- [ ] Services/FaceMatcher: Euclidean distance, threshold, margin ≥ 0.05 over second-best student
-- [ ] Services/AttendanceService: candidate cache per session, duplicate rule, manual override (audited)
-- [ ] `POST /Attendance/Recognize` → marked / already / unknown
-- [ ] live-attendance.js: ~1.5 s loop, labelled overlay boxes, present list + counter, liveness (≥ 3 consecutive frames + blink/head-turn movement)
-- [ ] Optional snapshot saved to `App_Data/snapshots/`
-- [ ] History: filter by subject, date, roll no.; session detail
-- [ ] Build ✔
+- [x] Teacher dashboard: my subjects, today's sessions
+- [x] SessionController: start (own subjects only), end, summary (present/absent)
+- [x] Services/FaceMatcher: Euclidean distance, threshold, margin ≥ 0.05 over second-best student
+- [x] Services/AttendanceService: candidate cache per session, duplicate rule, manual override (audited)
+- [x] `POST /Attendance/Recognize` → marked / already / unknown
+- [x] live-attendance.js: ~1.5 s loop, labelled overlay boxes, present list + counter, liveness (≥ 3 consecutive frames + blink/head-turn movement)
+- [x] Optional snapshot saved to `App_Data/snapshots/`
+- [x] History: filter by subject, date, roll no.; session detail
+- [x] Build ✔
 
 ## Phase 7 — Student portal
 - [ ] Dashboard: overall % and per-subject % (< 75% in red), recent entries

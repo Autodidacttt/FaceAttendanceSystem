@@ -1,0 +1,65 @@
+@model StartSessionViewModel
+@{
+    ViewBag.Title = "Start session";
+}
+<h1 class="h3 mb-3">Start an attendance session</h1>
+
+@if (!Model.Subjects.Any())
+{
+    <div class="alert alert-info">No subjects are assigned to you yet. Ask an administrator to assign your subjects.</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("Start", "Session", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                        <fieldset class="mb-3">
+                            <legend class="form-label fs-6 fw-semibold">Subject</legend>
+                            @foreach (var s in Model.Subjects)
+                            {
+                                <div class="form-check border rounded p-3 ps-5 mb-2">
+                                    <input class="form-check-input" type="radio" name="SubjectId" id="subject_@s.SubjectId" value="@s.SubjectId"
+                                           @(Model.SubjectId == s.SubjectId ? "checked" : "") />
+                                    <label class="form-check-label w-100" for="subject_@s.SubjectId">
+                                        <span class="fw-semibold">@s.Code</span> &ndash; @s.Name
+                                        <span class="d-block small text-muted">
+                                            @s.Department &middot; Sem @s.Semester &middot; @s.RosterSize students (@s.EnrolledCount enrolled)
+                                            @if (s.ActiveSessionId.HasValue) { <span class="text-success">&middot; session in progress</span> }
+                                        </span>
+                                    </label>
+                                </div>
+                            }
+                            @Html.ValidationMessageFor(m => m.SubjectId, "", new { @class = "text-danger small" })
+                        </fieldset>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="Notes">Notes <span class="text-muted small">(optional, e.g. room or topic)</span></label>
+                            @Html.TextBoxFor(m => m.Notes, new { @class = "form-control", maxlength = 200 })
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Start session and open camera</button>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 mt-3 mt-lg-0">
+            <div class="card">
+                <div class="card-body small">
+                    <h2 class="h6">How it works</h2>
+                    <ol class="ps-3 mb-0">
+                        <li>Start the session, then start the camera on the next page.</li>
+                        <li>Students look at the camera one or a few at a time and blink or turn their head slightly.</li>
+                        <li>Recognised students are marked present instantly; each student is counted once.</li>
+                        <li>Correct anyone manually, then end the session to see the summary.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+}

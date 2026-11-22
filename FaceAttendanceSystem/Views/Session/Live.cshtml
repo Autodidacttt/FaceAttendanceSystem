@@ -1,0 +1,115 @@
+@model SessionPageViewModel
+@{
+    ViewBag.Title = "Live attendance - " + Model.SubjectCode;
+    var present = Model.Roster.Where(r => r.IsPresent).OrderByDescending(r => r.MarkedUtc).ToList();
+    var rosterCount = Model.Roster.Count(r => r.OnRoster);
+    var notEnrolled = Model.Roster.Count(r => r.OnRoster && !r.HasFace);
+}
+@Html.AntiForgeryToken()
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <div>
+        <h1 class="h4 mb-0">@Model.SubjectCode &ndash; @Model.SubjectName</h1>
+        <div class="text-muted small">
+            Started @Model.StartedUtc.ToLocalDisplay() &middot; @Model.Department, semester @Model.Semester
+            @if (!string.IsNullOrEmpty(Model.Notes)) { <text>&middot; @Model.Notes</text> }
+        </div>
+    </div>
+    @using (Html.BeginForm("End", "Session", new { id = Model.SessionId }, FormMethod.Post,
+        new { onsubmit = "return confirm('End this session? Face recognition will stop; you can still correct attendance afterwards.');" }))
+    {
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-danger">End session</button>
+    }
+</div>
+
+<div id="live-app" class="row g-4"
+     data-session-id="@Model.SessionId"
+     data-recognize-url="@Url.Action("Recognize", "Attendance")"
+     data-override-url="@Url.Action("Override", "Attendance")"
+     data-status-url="@Url.Action("Status", "Attendance", new { id = Model.SessionId })"
+     data-detail-url="@Url.Action("Detail", "Session", new { id = Model.SessionId })"
+     data-models-url="@Url.Content("~/Content/face-models")"
+     data-roster-size="@rosterCount">
+
+    <div class="col-lg-7">
+        <div class="camera-wrap mb-2">
+            <video id="liveVideo" autoplay muted playsinline></video>
+            <canvas id="liveCanvas" aria-hidden="true"></canvas>
+        </div>
+        <div id="liveStatus" class="camera-status small text-muted" role="status" aria-live="polite">Camera is off.</div>
+
+        <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
+            <button type="button" id="btnStart" class="btn btn-primary">Start camera</button>
+            <button type="button" id="btnPause" class="btn btn-outline-secondary" hidden disabled>Pause camera</button>
+            <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" id="chkSnapshots" />
+                <label class="form-check-label small" for="chkSnapshots">Save a small face snapshot when a student is marked</label>
+            </div>
+        </div>
+
+        <div class="small text-muted mt-3">
+            <span class="badge" style="background:#ffc107">&nbsp;</span> checking liveness &nbsp;
+            <span class="badge" style="background:#0d6efd">&nbsp;</span> recognising &nbsp;
+            <span class="badge" style="background:#198754">&nbsp;</span> present &nbsp;
+            <span class="badge" style="background:#dc3545">&nbsp;</span> unknown
+            &middot; match threshold @Model.MatchThreshold.ToString("0.00")
+        </div>
+        @if (notEnrolled > 0)
+        {
+            <div class="alert alert-warning small mt-3 mb-0">
+                @notEnrolled student(s) on this roster have no face enrollment and can only be marked manually.
+            </div>
+        }
+
+        <h2 class="h6 mt-4">Recognition log</h2>
+        <ul id="recognitionLog" class="list-unstyled mb-0" aria-live="polite"></ul>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <h2 class="h6 mb-0">Present</h2>
+                    <div><span id="presentCount" class="fs-3 fw-bold">@present.Count</span> <span class="text-muted">/ @rosterCount</span></div>
+                </div>
+            </div>
+            <ul id="presentList" class="list-group list-group-flush present-list"></ul>
+            <div id="presentEmpty" class="card-body text-muted small pt-0">Nobody marked yet.</div>
+        </div>
+
+        <div class="card">
+            <div class="card-body pb-2">
+                <h2 class="h6 mb-0">Not yet present (<span id="absentCount">0</span>)</h2>
+                <div class="small text-muted">Mark a student manually if the camera can't recognise them.</div>
+            </div>
+            <ul id="absentList" class="list-group list-group-flush present-list">
+                @foreach (var r in Model.Roster.Where(r => r.OnRoster))
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center" data-student-id="@r.StudentId" @(r.IsPresent ? "hidden" : "")>
+                        <div>
+                            <div>@r.FullName</div>
+                            <div class="small text-muted">@r.RollNumber @if (!r.HasFace) { <span class="badge text-bg-secondary ms-1">no face</span> }
+                                @if (r.Status == AttendanceStatus.Absent) { <span class="badge text-bg-dark ms-1">marked absent</span> }</div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-action="present">Mark present</button>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="initialPresent" hidden>
+    @foreach (var r in present)
+    {
+        <span data-student-id="@r.StudentId" data-name="@r.FullName" data-roll="@r.RollNumber"
+              data-time="@(r.MarkedUtc.HasValue ? r.MarkedUtc.Value.ToLocalTimeDisplay() : "")"
+              data-method="@(r.Method == AttendanceMethod.Manual ? "manual" : "face")"></span>
+    }
+</div>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/lib/face-api/face-api.min.js")"></script>
+    @Scripts.Render("~/bundles/face-live")
+}
