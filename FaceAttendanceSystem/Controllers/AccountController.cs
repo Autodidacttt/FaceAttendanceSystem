@@ -79,7 +79,7 @@ namespace FaceAttendanceSystem.Controllers
 
             AuthCookie.SignIn(HttpContext, user);
 
-            if (user.MustChangePassword) return RedirectToAction("ChangePassword");
+            // No forced password change: everyone goes straight to their dashboard (or the page they asked for).
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
             return RedirectToAction("Index", "Home");
         }
@@ -98,7 +98,7 @@ namespace FaceAttendanceSystem.Controllers
         {
             var user = Db.Users.Find(CurrentUserId);
             if (user == null) return RedirectToAction("Login");
-            return View(new ChangePasswordViewModel { IsForced = user.MustChangePassword });
+            return View(new ChangePasswordViewModel());
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -106,7 +106,6 @@ namespace FaceAttendanceSystem.Controllers
         {
             var user = Db.Users.Find(CurrentUserId);
             if (user == null) return RedirectToAction("Login");
-            model.IsForced = user.MustChangePassword;
 
             if (!ModelState.IsValid) return View(model);
 

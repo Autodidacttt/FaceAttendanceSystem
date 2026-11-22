@@ -72,11 +72,11 @@ $vstest = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.
 
 Students `S002`–`S005` also exist, with password `Student@123`. `teacher1` teaches CS101 and CS102. All the students are in *Computer Science, semester 1*.
 
-**Every demo account must change its password at first sign-in.** Debug builds show these credentials on the sign-in page; Release builds do not.
+Signing in takes every role straight to its dashboard; nobody is forced to change their password. Anyone can change theirs at any time from **Change password** in the account menu (top right). Debug builds show these credentials on the sign-in page; Release builds do not. Change or remove the demo accounts before any real use.
 
 ## A typical walkthrough
 
-1. **Admin**: sign in as `admin`. Add students, teachers and subjects, then assign subjects to teachers (**Assignments**). New accounts get a temporary password that is shown once.
+1. **Admin**: sign in as `admin`. Add students, teachers and subjects, then assign subjects to teachers (**Assignments**). New accounts get a random password that is shown once; give it to the user, who can change it later if they want.
 2. **Enroll faces**: as admin (any student) or as a teacher (students in your classes), open **Face enrollment**, pick a student, start the camera and capture 5 samples.
 3. **Teacher**: sign in as `teacher1`. Click **Start session** on a subject, then start the camera. Students look at the camera and blink or turn their head slightly. Recognised students appear in the present list straight away.
 4. Correct anyone manually ("Mark present" / "Undo"), then **End session** to see the summary.
@@ -142,7 +142,7 @@ For high-stakes use, keep a teacher present, keep manual review in place, or add
 
 ## Security
 
-- **Passwords:** PBKDF2-HMAC-SHA256 with 100,000 iterations, a 16-byte random salt and a 32-byte hash, compared in constant time. Temporary passwords are random, shown once and must be changed at first sign-in.
+- **Passwords:** PBKDF2-HMAC-SHA256 with 100,000 iterations, a 16-byte random salt and a 32-byte hash, compared in constant time. Passwords generated for new accounts and resets are random and shown once. Changing a password is optional and available to every role (it needs the current password).
 - **Lockout:** 5 failed sign-ins lock the account for 15 minutes. Unknown usernames cost the same hashing time.
 - **Sessions:** forms authentication with an encrypted ticket and an HttpOnly cookie, 30-minute sliding expiry; Release builds require SSL. Every request re-checks the account against the database, so deactivated users and role changes take effect at once.
 - **Authorisation:** every action requires sign-in. Role filters return **403** to signed-in users with the wrong role. Teachers can only reach their own subjects, sessions, students and reports.
@@ -183,7 +183,7 @@ FaceAttendanceSystem.Tests/  MSTest: PasswordHasher, FaceMatcher, FaceDescriptor
 | Students often "Unknown" | Improve lighting, re-enroll in the classroom, or raise the threshold slightly (e.g. 0.55). |
 | Wrong student recognised | Lower the threshold (e.g. 0.45), re-enroll both students, and check the session in **History** to correct it. |
 | Database errors on first run | Check that LocalDB works with `sqllocaldb info MSSQLLocalDB`, then create the database by hand (see *First run*). To start over, delete the database with `sqllocaldb` / SSMS and run again. |
-| Demo password "invalid" | Each demo account must change its password at first sign-in, after which the original password no longer works. After 5 failures the account locks for 15 minutes. |
+| Demo password "invalid" | Someone may have changed it from *Change password*; ask an admin to reset it (the new password is shown once). After 5 failures the account locks for 15 minutes; a reset also clears the lock. |
 | Opening http://localhost:60322 redirects to a dead https URL | The site forces HTTPS and IIS Express only listens on port 44357. Use https://localhost:44357/. |
 
 ## Known limitations

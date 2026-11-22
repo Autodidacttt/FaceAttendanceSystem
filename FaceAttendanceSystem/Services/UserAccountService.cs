@@ -20,19 +20,19 @@ namespace FaceAttendanceSystem.Services
                 Role = role,
                 PasswordHash = PasswordHasher.Hash(temporaryPassword),
                 IsActive = true,
-                MustChangePassword = true,
+                MustChangePassword = false, // password changes are voluntary
                 CreatedUtc = DateTime.UtcNow
             };
             db.Users.Add(user);
             return user;
         }
 
-        /// <summary>Sets a new temporary password, forces a change at next sign-in and clears any lockout.</summary>
+        /// <summary>Sets a new temporary password and clears any lockout. The user may change it later if they want.</summary>
         public static string ResetPassword(User user)
         {
             var temporaryPassword = PasswordHasher.GenerateTemporaryPassword();
             user.PasswordHash = PasswordHasher.Hash(temporaryPassword);
-            user.MustChangePassword = true;
+            user.MustChangePassword = false;
             user.FailedLoginCount = 0;
             user.LockoutEndUtc = null;
             return temporaryPassword;

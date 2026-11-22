@@ -19,23 +19,23 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] User also gets `FailedLoginCount` + `LockoutEndUtc` (needed for lockout)
 - [x] AppDbContext with unique indexes (Username, Email, RollNumber, EmployeeNumber, Subject.Code, Attendance(ClassSessionId, StudentId))
 - [x] Migrations/Configuration + `Initial` migration (ef6.exe)
-- [x] Seed: admin / teacher1 / S001 (+ a few demo students and subjects), PBKDF2-hashed at seed time, MustChangePassword = true, threshold 0.5
+- [x] Seed: admin / teacher1 / S001 (+ a few demo students and subjects), PBKDF2-hashed at seed time, MustChangePassword = false (forced change removed later), threshold 0.5
 - [x] `database update` creates and seeds LocalDB
 - [x] Build ✔
 
 ## Phase 3 — Auth, infrastructure, layout
 - [x] Services/PasswordHasher (PBKDF2-SHA256, 100k iterations, 16-byte salt, 32-byte hash, constant-time compare)
-- [x] AccountController: login (one page, redirects by role), POST logout, change password, forced change on first login
+- [x] AccountController: login (one page, redirects by role), POST logout, change password (voluntary; the forced first-login change was removed)
 - [x] Lockout: 15 min after 5 failed logins
 - [x] FormsAuthenticationTicket (user id + role) → `Application_PostAuthenticateRequest` → GenericPrincipal
-- [x] Infrastructure: RoleAuthorize (403 for a signed-in user with the wrong role), AjaxValidateAntiForgery (header token), AuditLogger, MustChangePassword filter
+- [x] Infrastructure: RoleAuthorize (403 for a signed-in user with the wrong role), AjaxValidateAntiForgery (header token), AuditLogger, account-status filter (signs out deactivated accounts)
 - [x] Global filters: Authorize, RequireHttps, HandleError
 - [x] `_Layout` with role-aware navbar, `_ViewStart`, `site.css`, 403/404/500 pages
 - [x] Build ✔
 
 ## Phase 4 — Admin
 - [x] Dashboard: totals, today's attendance %, 5 students with the lowest attendance
-- [x] CRUD Students / Teachers / Subjects (temp password shown once, MustChangePassword)
+- [x] CRUD Students / Teachers / Subjects (random password shown once, no forced change)
 - [x] Teacher↔Subject assignment
 - [x] Settings: match threshold 0.35–0.60
 - [x] Build ✔
@@ -84,3 +84,6 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [ ] `gh auth status` (gh must be installed + logged in by you) — **blocked 2026-11-22: gh reports "not logged into any GitHub hosts" from Claude's shells**
 - [ ] `gh repo create Autodidacttt/FaceAttendanceSystem --public --source . --remote origin --push` (never force-push)
 - [ ] Summary: what works, manual tests, known limitations
+
+## Change log
+- 2026-11-22: removed the forced password change. Nobody is redirected after sign-in; seed, new accounts and resets use MustChangePassword = false; migration `NoForcedPasswordChange` clears the flag on existing rows. The Change password page stays in the account menu for every role.

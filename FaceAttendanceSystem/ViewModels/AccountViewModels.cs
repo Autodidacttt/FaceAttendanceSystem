@@ -24,8 +24,6 @@ namespace FaceAttendanceSystem.ViewModels
         [Required, DataType(DataType.Password), Display(Name = "Confirm new password")]
         [Compare(nameof(NewPassword), ErrorMessage = "The passwords do not match.")]
         public string ConfirmPassword { get; set; }
-
-        public bool IsForced { get; set; }
     }
 
     public static class PasswordPolicy

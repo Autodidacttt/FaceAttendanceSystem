@@ -353,6 +353,17 @@
   <ItemGroup>
     <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Migrations\202611220901313_NoForcedPasswordChange.Designer.cs">
+      <DependentUpon>202611220901313_NoForcedPasswordChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202611220901313_NoForcedPasswordChange.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202611220901313_NoForcedPasswordChange.resx">
+      <DependentUpon>202611220901313_NoForcedPasswordChange.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

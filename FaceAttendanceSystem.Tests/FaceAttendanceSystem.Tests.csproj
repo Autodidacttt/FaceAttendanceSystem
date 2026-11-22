@@ -54,6 +54,7 @@
     <Compile Include="PasswordHasherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestVectors.cs" />
+    <Compile Include="UserAccountServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -18,7 +18,7 @@ namespace FaceAttendanceSystem.Migrations
 
         /// <summary>
         /// Idempotent seed: only inserts rows that do not exist yet, so existing passwords and
-        /// edits are never overwritten. Demo passwords must be changed on first login.
+        /// edits are never overwritten. Demo accounts are not forced to change their password.
         /// </summary>
         protected override void Seed(AppDbContext db)
         {
@@ -108,7 +108,7 @@ namespace FaceAttendanceSystem.Migrations
                 PasswordHash = PasswordHasher.Hash(password),
                 Role = role,
                 IsActive = true,
-                MustChangePassword = true,
+                MustChangePassword = false,
                 CreatedUtc = now
             };
             db.Users.Add(user);
