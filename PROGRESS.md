@@ -64,9 +64,9 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 8 — Reports
-- [ ] Services/ReportService: by subject, by student, by date range
-- [ ] CSV export
-- [ ] Build ✔
+- [x] Services/ReportService: by subject, by student, by date range
+- [x] CSV export
+- [x] Build ✔
 
 ## Phase 9 — Tests
 - [ ] FaceAttendanceSystem.Tests (MSTest, net472, classic csproj) added to solution

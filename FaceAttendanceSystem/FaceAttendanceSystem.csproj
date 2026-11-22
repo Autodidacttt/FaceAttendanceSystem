@@ -344,6 +344,15 @@
     <Content Include="Views\Student\Dashboard.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Infrastructure\Csv.cs" />
+    <Compile Include="Services\ReportService.Reports.cs" />
+    <Compile Include="ViewModels\ReportViewModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Reports\Index.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

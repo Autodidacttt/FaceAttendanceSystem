@@ -1,0 +1,157 @@
+@model ReportViewModel
+@{
+    ViewBag.Title = "Reports";
+    var q = Model.Query;
+    var type = string.IsNullOrEmpty(q.Type) ? "subject" : q.Type;
+    Func<DateTime?, string> dateValue = d => d.HasValue ? d.Value.ToString("yyyy-MM-dd") : "";
+}
+<h1 class="h3 mb-3">Attendance reports</h1>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(type == "subject" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tabSubject" type="button" role="tab">By subject</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(type == "student" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tabStudent" type="button" role="tab">By student</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(type == "date" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tabDate" type="button" role="tab">By date range</button>
+    </li>
+</ul>
+<div class="tab-content card card-body border-top-0 rounded-0 rounded-bottom mb-4">
+    <div class="tab-pane fade @(type == "subject" ? "show active" : "")" id="tabSubject" role="tabpanel">
+        <form method="get" action="@Url.Action("Index")" class="row g-2 align-items-end">
+            <input type="hidden" name="type" value="subject" />
+            <div class="col-md-5">
+                <label class="form-label small" for="subjectSubject">Subject</label>
+                <select class="form-select" id="subjectSubject" name="subjectId" required>
+                    <option value="">Choose a subject</option>
+                    @foreach (var o in Model.SubjectOptions)
+                    {
+                        <option value="@o.Value" @(type == "subject" && o.Selected ? "selected" : "")>@o.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-6 col-md-2"><label class="form-label small" for="fromSubject">From</label><input class="form-control" type="date" id="fromSubject" name="from" value="@dateValue(q.From)" /></div>
+            <div class="col-6 col-md-2"><label class="form-label small" for="toSubject">To</label><input class="form-control" type="date" id="toSubject" name="to" value="@dateValue(q.To)" /></div>
+            <div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Show report</button></div>
+        </form>
+        <p class="small text-muted mt-2 mb-0">Every student on the subject's roster, with sessions held, attended and their percentage.</p>
+    </div>
+    <div class="tab-pane fade @(type == "student" ? "show active" : "")" id="tabStudent" role="tabpanel">
+        <form method="get" action="@Url.Action("Index")" class="row g-2 align-items-end">
+            <input type="hidden" name="type" value="student" />
+            <div class="col-md-5">
+                <label class="form-label small" for="rollStudent">Roll number</label>
+                <input class="form-control" type="text" id="rollStudent" name="roll" value="@q.Roll" placeholder="e.g. S001" required />
+            </div>
+            <div class="col-6 col-md-2"><label class="form-label small" for="fromStudent">From</label><input class="form-control" type="date" id="fromStudent" name="from" value="@dateValue(q.From)" /></div>
+            <div class="col-6 col-md-2"><label class="form-label small" for="toStudent">To</label><input class="form-control" type="date" id="toStudent" name="to" value="@dateValue(q.To)" /></div>
+            <div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Show report</button></div>
+        </form>
+        <p class="small text-muted mt-2 mb-0">One student's attendance in each subject of their class.</p>
+    </div>
+    <div class="tab-pane fade @(type == "date" ? "show active" : "")" id="tabDate" role="tabpanel">
+        <form method="get" action="@Url.Action("Index")" class="row g-2 align-items-end">
+            <input type="hidden" name="type" value="date" />
+            <div class="col-6 col-md-2"><label class="form-label small" for="fromDate">From</label><input class="form-control" type="date" id="fromDate" name="from" value="@dateValue(q.From)" /></div>
+            <div class="col-6 col-md-2"><label class="form-label small" for="toDate">To</label><input class="form-control" type="date" id="toDate" name="to" value="@dateValue(q.To)" /></div>
+            <div class="col-md-5">
+                <label class="form-label small" for="subjectDate">Subject (optional)</label>
+                <select class="form-select" id="subjectDate" name="subjectId">
+                    <option value="">All subjects</option>
+                    @foreach (var o in Model.SubjectOptions)
+                    {
+                        <option value="@o.Value" @(type == "date" && o.Selected ? "selected" : "")>@o.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Show report</button></div>
+        </form>
+        <p class="small text-muted mt-2 mb-0">Every session in the period with present count and percentage.</p>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-warning">@Model.Message</div>
+}
+
+@if (Model.HasResult)
+{
+    <div class="d-flex flex-wrap justify-content-between align-items-end mb-2 gap-2">
+        <div>
+            <h2 class="h5 mb-0">@Model.Title</h2>
+            <div class="small text-muted">@Model.Subtitle</div>
+        </div>
+        <a class="btn btn-outline-secondary btn-sm" href="@Url.Action("Export", new { type = q.Type, subjectId = q.SubjectId, roll = q.Roll, from = dateValue(q.From), to = dateValue(q.To) })">Export CSV</a>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            @if (q.Type == "subject")
+            {
+                <table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>Roll no.</th><th>Name</th><th class="text-end">Held</th><th class="text-end">Present</th><th class="text-end">Absent</th><th class="text-end">%</th></tr></thead>
+                    <tbody>
+                        @if (!Model.SubjectRows.Any()) { <tr><td colspan="6" class="text-center text-muted py-4">No students on this roster.</td></tr> }
+                        @foreach (var r in Model.SubjectRows)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@r.RollNumber</td><td>@r.FullName</td>
+                                <td class="text-end">@r.SessionsHeld</td><td class="text-end">@r.Present</td><td class="text-end">@r.Absent</td>
+                                <td class="text-end @(r.SessionsHeld > 0 ? HtmlExtensions.PercentClass(r.Percent) : "text-muted")">@(r.SessionsHeld > 0 ? UiFormat.Percent(r.Percent) : "-")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (q.Type == "student")
+            {
+                var totalHeld = Model.StudentRows.Sum(r => r.SessionsHeld);
+                var totalPresent = Model.StudentRows.Sum(r => r.Present);
+                var totalPct = FaceAttendanceSystem.Services.ReportService.Percent(totalPresent, totalHeld);
+                <table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>Subject</th><th class="text-end">Held</th><th class="text-end">Present</th><th class="text-end">Absent</th><th class="text-end">%</th></tr></thead>
+                    <tbody>
+                        @foreach (var r in Model.StudentRows)
+                        {
+                            <tr>
+                                <td><span class="fw-semibold">@r.Code</span> @r.Name</td>
+                                <td class="text-end">@r.SessionsHeld</td><td class="text-end">@r.Present</td><td class="text-end">@r.Absent</td>
+                                <td class="text-end @(r.SessionsHeld > 0 ? HtmlExtensions.PercentClass(r.Percent) : "text-muted")">@(r.SessionsHeld > 0 ? UiFormat.Percent(r.Percent) : "-")</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-semibold">
+                            <td>Total</td><td class="text-end">@totalHeld</td><td class="text-end">@totalPresent</td><td class="text-end">@(totalHeld - totalPresent)</td>
+                            <td class="text-end @(totalHeld > 0 ? HtmlExtensions.PercentClass(totalPct) : "")">@(totalHeld > 0 ? UiFormat.Percent(totalPct) : "-")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>Date</th><th>Subject</th><th>Teacher</th><th class="text-end">Present</th><th class="text-end">%</th><th></th></tr></thead>
+                    <tbody>
+                        @if (!Model.SessionRows.Any()) { <tr><td colspan="6" class="text-center text-muted py-4">No sessions in this period.</td></tr> }
+                        @foreach (var r in Model.SessionRows)
+                        {
+                            <tr>
+                                <td class="text-nowrap">@r.StartedUtc.ToLocalDisplay()</td>
+                                <td><span class="fw-semibold">@r.SubjectCode</span> <span class="small text-muted">@r.SubjectName</span></td>
+                                <td class="small">@r.TeacherName</td>
+                                <td class="text-end">@r.PresentCount / @r.RosterSize</td>
+                                <td class="text-end @HtmlExtensions.PercentClass(r.Percent)">@UiFormat.Percent(r.Percent)</td>
+                                <td class="text-end"><a class="btn btn-sm btn-link" href="@Url.Action("Detail", "Session", new { id = r.Id })">View</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <p class="small text-muted mt-2">Percentages below 75% are shown in red.</p>
+}
