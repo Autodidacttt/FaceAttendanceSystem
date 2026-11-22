@@ -1,0 +1,59 @@
+@model SubjectFormViewModel
+@{
+    var isNew = Model.Id == null;
+    ViewBag.Title = isNew ? "Add subject" : "Edit subject";
+    var departments = ViewBag.Departments as string[] ?? new string[0];
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index")">Subjects</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+    </ol>
+</nav>
+<h1 class="h3 mb-3">@ViewBag.Title</h1>
+
+<div class="card">
+    <div class="card-body">
+        @using (Html.BeginForm(isNew ? "Create" : "Edit", "Subjects", isNew ? null : new { id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+            <div class="row g-3">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.Code, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Code, new { @class = "form-control text-uppercase" })
+                    @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger small" })
+                </div>
+                <div class="col-md-9">
+                    @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger small" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(m => m.Department, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Department, new { @class = "form-control", list = "departmentList" })
+                    <datalist id="departmentList">
+                        @foreach (var d in departments) { <option value="@d"></option> }
+                    </datalist>
+                    @Html.ValidationMessageFor(m => m.Department, "", new { @class = "text-danger small" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Semester, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Semester, new { @class = "form-control", type = "number", min = 1, max = 12 })
+                    @Html.ValidationMessageFor(m => m.Semester, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+            <p class="form-text mt-2">Students in this department and semester will be on the subject's roster.</p>
+
+            <div class="mt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">@(isNew ? "Create subject" : "Save changes")</button>
+                <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Cancel</a>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

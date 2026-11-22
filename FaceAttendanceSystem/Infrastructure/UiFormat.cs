@@ -4,7 +4,7 @@ using System.Globalization;
 namespace FaceAttendanceSystem.Infrastructure
 {
     /// <summary>Formatting helpers for views. All dates are stored in UTC and shown in server local time.</summary>
-    public static class DisplayExtensions
+    public static class UiFormat
     {
         public static DateTime ToLocal(this DateTime utc)
         {

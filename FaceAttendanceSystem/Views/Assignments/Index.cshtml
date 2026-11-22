@@ -1,0 +1,65 @@
+@model AssignmentsViewModel
+@{
+    ViewBag.Title = "Subject assignments";
+}
+<h1 class="h3 mb-3">Subject assignments</h1>
+<p class="text-muted small">Teachers can only start attendance sessions for subjects assigned to them.</p>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="h6 mb-3">Assign a subject</h2>
+                @using (Html.BeginForm("Add", "Assignments", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.TeacherId, new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.TeacherId, Model.TeacherOptions, "Choose a teacher", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.TeacherId, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.SubjectId, new { @class = "form-label" })
+                        @Html.DropDownListFor(m => m.SubjectId, Model.SubjectOptions, "Choose a subject", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.SubjectId, "", new { @class = "text-danger small" })
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Assign</button>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead><tr><th>Teacher</th><th>Subject</th><th class="text-end"></th></tr></thead>
+                    <tbody>
+                        @if (!Model.Assignments.Any())
+                        {
+                            <tr><td colspan="3" class="text-center text-muted py-4">No assignments yet.</td></tr>
+                        }
+                        @foreach (var a in Model.Assignments)
+                        {
+                            <tr>
+                                <td>@a.TeacherName <span class="small text-muted">(@a.EmployeeNumber)</span></td>
+                                <td><span class="fw-semibold">@a.SubjectCode</span> &ndash; @a.SubjectName</td>
+                                <td class="text-end">
+                                    @using (Html.BeginForm("Remove", "Assignments", new { id = a.Id }, FormMethod.Post, new { @class = "d-inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

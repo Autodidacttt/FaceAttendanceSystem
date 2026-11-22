@@ -1,0 +1,74 @@
+@model StudentListViewModel
+@{
+    ViewBag.Title = "Students";
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="h3 mb-0">Students</h1>
+    <a class="btn btn-primary" href="@Url.Action("Create")">Add student</a>
+</div>
+
+<form method="get" class="row g-2 mb-3" role="search">
+    <div class="col-sm-8 col-md-6">
+        <input type="search" name="q" value="@Model.Query" class="form-control" placeholder="Search roll no., name, email or department" aria-label="Search students" />
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+        @if (!string.IsNullOrEmpty(Model.Query))
+        {
+            <a class="btn btn-link" href="@Url.Action("Index")">Clear</a>
+        }
+    </div>
+</form>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr><th>Roll no.</th><th>Name</th><th>Email</th><th>Class</th><th>Face</th><th>Status</th><th class="text-end">Actions</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Students.Items.Any())
+                {
+                    <tr><td colspan="7" class="text-center text-muted py-4">No students found.</td></tr>
+                }
+                @foreach (var s in Model.Students.Items)
+                {
+                    <tr>
+                        <td class="fw-semibold">@s.RollNumber</td>
+                        <td>@s.FullName</td>
+                        <td class="small">@s.Email</td>
+                        <td class="small">@s.Department &middot; Sem @s.Semester</td>
+                        <td>
+                            @if (s.FaceSamples > 0)
+                            {
+                                <span class="badge text-bg-success">@s.FaceSamples samples</span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-secondary">Not enrolled</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!s.IsActive) { <span class="badge text-bg-dark">Inactive</span> }
+                            else if (s.IsLockedOut) { <span class="badge text-bg-warning">Locked</span> }
+                            else { <span class="badge text-bg-light">Active</span> }
+                        </td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-primary" href="@Url.Action("Index", "Enrollment", new { id = s.Id })">Face</a>
+                            <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Edit", new { id = s.Id })">Edit</a>
+                            @using (Html.BeginForm("ResetPassword", "Students", new { id = s.Id }, FormMethod.Post, new { @class = "d-inline", onsubmit = "return confirm('Reset this student\\'s password? A new temporary password will be shown once.');" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-warning">Reset password</button>
+                            }
+                            <a class="btn btn-sm btn-outline-danger" href="@Url.Action("Delete", new { id = s.Id })">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer bg-white">
+        @Html.Partial("_Pager", Model.Students)
+    </div>
+</div>

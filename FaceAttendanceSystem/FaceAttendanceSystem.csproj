@@ -247,7 +247,6 @@
     <Compile Include="Infrastructure\AuditLogger.cs" />
     <Compile Include="Infrastructure\AuthCookie.cs" />
     <Compile Include="Infrastructure\BaseController.cs" />
-    <Compile Include="Infrastructure\DisplayExtensions.cs" />
     <Compile Include="Infrastructure\ErrorResults.cs" />
     <Compile Include="Infrastructure\HtmlExtensions.cs" />
     <Compile Include="Infrastructure\RoleAuthorizeAttribute.cs" />
@@ -260,6 +259,44 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\ServerError.cshtml" />
     <Content Include="Views\Shared\_Flash.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AssignmentsController.cs" />
+    <Compile Include="Controllers\AuditController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\SubjectsController.cs" />
+    <Compile Include="Controllers\TeachersController.cs" />
+    <Compile Include="Infrastructure\DbErrors.cs" />
+    <Compile Include="Infrastructure\PagedResult.cs" />
+    <Compile Include="Services\FaceCandidateCache.cs" />
+    <Compile Include="Services\FaceDescriptor.cs" />
+    <Compile Include="Services\ReportService.cs" />
+    <Compile Include="Services\RosterService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\UserAccountService.cs" />
+    <Compile Include="ViewModels\AdminViewModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Assignments\Index.cshtml" />
+    <Content Include="Views\Audit\Index.cshtml" />
+    <Content Include="Views\Settings\Settings.cshtml" />
+    <Content Include="Views\Shared\Credentials.cshtml" />
+    <Content Include="Views\Shared\_Pager.cshtml" />
+    <Content Include="Views\Students\Delete.cshtml" />
+    <Content Include="Views\Students\Form.cshtml" />
+    <Content Include="Views\Students\Index.cshtml" />
+    <Content Include="Views\Subjects\Delete.cshtml" />
+    <Content Include="Views\Subjects\Form.cshtml" />
+    <Content Include="Views\Subjects\Index.cshtml" />
+    <Content Include="Views\Teachers\Delete.cshtml" />
+    <Content Include="Views\Teachers\Form.cshtml" />
+    <Content Include="Views\Teachers\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infrastructure\UiFormat.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

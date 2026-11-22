@@ -1,0 +1,30 @@
+@model Teacher
+@{
+    ViewBag.Title = "Delete teacher";
+    var sessionCount = (int)ViewBag.SessionCount;
+}
+<h1 class="h3 mb-3">Delete teacher</h1>
+<div class="card">
+    <div class="card-body">
+        <p>Teacher <strong>@Model.EmployeeNumber &ndash; @Model.User.FullName</strong> (@Model.Department).</p>
+        @if (sessionCount > 0)
+        {
+            <div class="alert alert-warning">
+                This teacher has run @sessionCount class session(s), so the record can't be deleted.
+                Deactivate the account instead to keep the history.
+            </div>
+            <a class="btn btn-primary" href="@Url.Action("Edit", new { id = Model.Id })">Edit / deactivate</a>
+            <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Back</a>
+        }
+        else
+        {
+            <p>This permanently deletes the teacher, their sign-in account and their subject assignments.</p>
+            using (Html.BeginForm("Delete", "Teachers", new { id = Model.Id }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Delete permanently</button>
+                <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Cancel</a>
+            }
+        }
+    </div>
+</div>

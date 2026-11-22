@@ -1,0 +1,27 @@
+@model FaceAttendanceSystem.Infrastructure.IPagedResult
+@{
+    Func<int, string> pageUrl = p =>
+    {
+        var query = HttpUtility.ParseQueryString(Request.QueryString.ToString());
+        query["page"] = p.ToString();
+        return Request.Path + "?" + query;
+    };
+}
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Pages" class="d-flex justify-content-between align-items-center">
+        <span class="small text-muted">@Model.TotalCount records &middot; page @Model.Page of @Model.TotalPages</span>
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@pageUrl(Model.Page - 1)">Previous</a>
+            </li>
+            <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@pageUrl(Model.Page + 1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
+else
+{
+    <p class="small text-muted mb-0">@Model.TotalCount record(s)</p>
+}

@@ -1,0 +1,26 @@
+@model Subject
+@{
+    ViewBag.Title = "Delete subject";
+    var sessionCount = (int)ViewBag.SessionCount;
+}
+<h1 class="h3 mb-3">Delete subject</h1>
+<div class="card">
+    <div class="card-body">
+        <p>Subject <strong>@Model.Code &ndash; @Model.Name</strong> (@Model.Department, semester @Model.Semester).</p>
+        @if (sessionCount > 0)
+        {
+            <div class="alert alert-warning">This subject has @sessionCount class session(s) on record and can't be deleted.</div>
+            <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Back</a>
+        }
+        else
+        {
+            <p>This permanently deletes the subject and its teacher assignments.</p>
+            using (Html.BeginForm("Delete", "Subjects", new { id = Model.Id }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Delete permanently</button>
+                <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Cancel</a>
+            }
+        }
+    </div>
+</div>

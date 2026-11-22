@@ -1,0 +1,46 @@
+@model AuditListViewModel
+@{
+    ViewBag.Title = "Audit log";
+}
+<h1 class="h3 mb-3">Audit log</h1>
+
+<form method="get" class="row g-2 mb-3" role="search">
+    <div class="col-sm-8 col-md-6">
+        <input type="search" name="q" value="@Model.Query" class="form-control" placeholder="Filter by action, user, entity or details" aria-label="Filter audit log" />
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-secondary" type="submit">Filter</button>
+        @if (!string.IsNullOrEmpty(Model.Query))
+        {
+            <a class="btn btn-link" href="@Url.Action("Index")">Clear</a>
+        }
+    </div>
+</form>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0">
+            <thead><tr><th>When</th><th>User</th><th>Action</th><th>Entity</th><th>Details</th><th>IP</th></tr></thead>
+            <tbody>
+                @if (!Model.Entries.Items.Any())
+                {
+                    <tr><td colspan="6" class="text-center text-muted py-4">No entries.</td></tr>
+                }
+                @foreach (var e in Model.Entries.Items)
+                {
+                    <tr>
+                        <td class="text-nowrap small">@e.TimestampUtc.ToLocalDisplay()</td>
+                        <td>@e.Username</td>
+                        <td><span class="badge text-bg-light border">@e.Action</span></td>
+                        <td class="small">@e.EntityType @(string.IsNullOrEmpty(e.EntityId) ? "" : "#" + e.EntityId)</td>
+                        <td class="small">@e.Details</td>
+                        <td class="small text-muted">@e.IpAddress</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer bg-white">
+        @Html.Partial("_Pager", Model.Entries)
+    </div>
+</div>

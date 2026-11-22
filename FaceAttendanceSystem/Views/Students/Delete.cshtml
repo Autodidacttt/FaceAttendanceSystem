@@ -1,0 +1,30 @@
+@model Student
+@{
+    ViewBag.Title = "Delete student";
+    var attendanceCount = (int)ViewBag.AttendanceCount;
+}
+<h1 class="h3 mb-3">Delete student</h1>
+<div class="card">
+    <div class="card-body">
+        <p>Student <strong>@Model.RollNumber &ndash; @Model.User.FullName</strong> (@Model.Department, semester @Model.Semester).</p>
+        @if (attendanceCount > 0)
+        {
+            <div class="alert alert-warning">
+                This student has @attendanceCount attendance record(s), so the record can't be deleted.
+                Deactivate the account instead to keep the history.
+            </div>
+            <a class="btn btn-primary" href="@Url.Action("Edit", new { id = Model.Id })">Edit / deactivate</a>
+            <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Back</a>
+        }
+        else
+        {
+            <p>This permanently deletes the student, their sign-in account and their face enrollment data.</p>
+            using (Html.BeginForm("Delete", "Students", new { id = Model.Id }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Delete permanently</button>
+                <a class="btn btn-outline-secondary" href="@Url.Action("Index")">Cancel</a>
+            }
+        }
+    </div>
+</div>

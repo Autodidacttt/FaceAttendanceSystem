@@ -34,11 +34,11 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 4 — Admin
-- [ ] Dashboard: totals, today's attendance %, 5 students with the lowest attendance
-- [ ] CRUD Students / Teachers / Subjects (temp password shown once, MustChangePassword)
-- [ ] Teacher↔Subject assignment
-- [ ] Settings: match threshold 0.35–0.60
-- [ ] Build ✔
+- [x] Dashboard: totals, today's attendance %, 5 students with the lowest attendance
+- [x] CRUD Students / Teachers / Subjects (temp password shown once, MustChangePassword)
+- [x] Teacher↔Subject assignment
+- [x] Settings: match threshold 0.35–0.60
+- [x] Build ✔
 
 ## Phase 5 — Face enrollment
 - [ ] face-api.js + models (tinyFaceDetector, faceLandmark68Net, faceRecognitionNet) stored locally

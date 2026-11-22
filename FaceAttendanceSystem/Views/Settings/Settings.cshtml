@@ -1,0 +1,49 @@
+@model SettingsViewModel
+@{
+    ViewBag.Title = "Settings";
+}
+<h1 class="h3 mb-3">Settings</h1>
+<div class="row">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm("Settings", "Settings", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                    @Html.LabelFor(m => m.MatchThreshold, new { @class = "form-label fw-semibold" })
+                    <div class="d-flex align-items-center gap-3">
+                        <input type="range" class="form-range" id="thresholdRange" min="0.35" max="0.60" step="0.01"
+                               value="@Model.MatchThreshold.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)" aria-label="Face match threshold slider" />
+                        @Html.TextBoxFor(m => m.MatchThreshold, "{0:0.00}", new { @class = "form-control", style = "max-width: 6rem", type = "number", step = "0.01", min = "0.35", max = "0.60" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.MatchThreshold, "", new { @class = "text-danger small" })
+
+                    <div class="form-text mt-2">
+                        A face matches a student when the distance between descriptors is <strong>at or below</strong> this value
+                        <em>and</em> at least 0.05 closer than the next-best student.
+                        <ul class="mb-0 mt-1">
+                            <li><strong>Lower (0.35&ndash;0.45)</strong>: stricter, fewer wrong matches, but more "unknown" results in poor light.</li>
+                            <li><strong>Higher (0.50&ndash;0.60)</strong>: more forgiving, but a higher risk of marking the wrong student.</li>
+                        </ul>
+                        The default is 0.50.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Save settings</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        (function () {
+            var range = document.getElementById('thresholdRange');
+            var input = document.getElementById('MatchThreshold');
+            range.addEventListener('input', function () { input.value = Number(range.value).toFixed(2); });
+            input.addEventListener('input', function () { range.value = input.value; });
+        })();
+    </script>
+}

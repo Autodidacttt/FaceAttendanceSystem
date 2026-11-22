@@ -1,0 +1,40 @@
+@model List<SubjectListItem>
+@{
+    ViewBag.Title = "Subjects";
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="h3 mb-0">Subjects</h1>
+    <a class="btn btn-primary" href="@Url.Action("Create")">Add subject</a>
+</div>
+<p class="text-muted small">A subject's roster is every active student in the same department and semester.</p>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr><th>Code</th><th>Name</th><th>Class</th><th class="text-end">Roster</th><th class="text-end">Sessions</th><th>Teachers</th><th class="text-end">Actions</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="7" class="text-center text-muted py-4">No subjects yet.</td></tr>
+                }
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@s.Code</td>
+                        <td>@s.Name</td>
+                        <td class="small">@s.Department &middot; Sem @s.Semester</td>
+                        <td class="text-end">@s.RosterSize</td>
+                        <td class="text-end">@s.SessionCount</td>
+                        <td class="small">@(s.Teachers.Any() ? string.Join(", ", s.Teachers) : "Unassigned")</td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Edit", new { id = s.Id })">Edit</a>
+                            <a class="btn btn-sm btn-outline-danger" href="@Url.Action("Delete", new { id = s.Id })">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
