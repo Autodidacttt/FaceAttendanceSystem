@@ -59,9 +59,9 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 7 — Student portal
-- [ ] Dashboard: overall % and per-subject % (< 75% in red), recent entries
-- [ ] Profile: face enrolled yes/no (read-only)
-- [ ] Build ✔
+- [x] Dashboard: overall % and per-subject % (< 75% in red), recent entries
+- [x] Profile: face enrolled yes/no (read-only)
+- [x] Build ✔
 
 ## Phase 8 — Reports
 - [ ] Services/ReportService: by subject, by student, by date range

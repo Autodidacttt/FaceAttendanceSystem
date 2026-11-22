@@ -1,0 +1,42 @@
+@model StudentProfileViewModel
+@{
+    ViewBag.Title = "My profile";
+}
+<h1 class="h3 mb-3">My profile</h1>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Name</dt><dd class="col-sm-8">@Model.FullName</dd>
+                    <dt class="col-sm-4">Roll number</dt><dd class="col-sm-8">@Model.RollNumber</dd>
+                    <dt class="col-sm-4">Username</dt><dd class="col-sm-8"><code>@Model.Username</code></dd>
+                    <dt class="col-sm-4">Email</dt><dd class="col-sm-8">@Model.Email</dd>
+                    <dt class="col-sm-4">Department</dt><dd class="col-sm-8">@Model.Department</dd>
+                    <dt class="col-sm-4">Semester</dt><dd class="col-sm-8">@Model.Semester</dd>
+                    <dt class="col-sm-4">Last sign-in</dt><dd class="col-sm-8">@Model.LastLoginUtc.ToLocalDisplay()</dd>
+                </dl>
+            </div>
+        </div>
+        <p class="small text-muted mt-2">To correct these details, contact the administrator.</p>
+    </div>
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="h6">Face enrollment</h2>
+                @if (Model.FaceEnrolled)
+                {
+                    <p class="mb-1"><span class="badge text-bg-success">Enrolled</span></p>
+                    <p class="small text-muted mb-0">@Model.FaceSamples face samples saved (last on @Model.EnrolledUtc.ToLocalDisplay()). The camera can mark you present.</p>
+                }
+                else
+                {
+                    <p class="mb-1"><span class="badge text-bg-secondary">Not enrolled</span></p>
+                    <p class="small text-muted mb-0">Ask your teacher or the administrator to enroll your face.</p>
+                }
+                <p class="small text-muted mt-3 mb-0">Only numeric face descriptors are stored, not photos.</p>
+            </div>
+        </div>
+        <a class="btn btn-outline-secondary mt-3" href="@Url.Action("ChangePassword", "Account")">Change password</a>
+    </div>
+</div>
