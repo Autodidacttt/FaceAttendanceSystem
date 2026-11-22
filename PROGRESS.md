@@ -15,13 +15,13 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 2 — Data layer
-- [ ] Entities: User, Student, Teacher, Subject, TeacherSubject, FaceEnrollment, ClassSession, Attendance, AuditLog, AppSetting (threshold)
-- [ ] User also gets `FailedLoginCount` + `LockoutEndUtc` (needed for lockout)
-- [ ] AppDbContext with unique indexes (Username, Email, RollNumber, EmployeeNumber, Subject.Code, Attendance(ClassSessionId, StudentId))
-- [ ] Migrations/Configuration + `Initial` migration (ef6.exe)
-- [ ] Seed: admin / teacher1 / S001 (+ a few demo students and subjects), PBKDF2-hashed at seed time, MustChangePassword = true, threshold 0.5
-- [ ] `database update` creates and seeds LocalDB
-- [ ] Build ✔
+- [x] Entities: User, Student, Teacher, Subject, TeacherSubject, FaceEnrollment, ClassSession, Attendance, AuditLog, AppSetting (threshold)
+- [x] User also gets `FailedLoginCount` + `LockoutEndUtc` (needed for lockout)
+- [x] AppDbContext with unique indexes (Username, Email, RollNumber, EmployeeNumber, Subject.Code, Attendance(ClassSessionId, StudentId))
+- [x] Migrations/Configuration + `Initial` migration (ef6.exe)
+- [x] Seed: admin / teacher1 / S001 (+ a few demo students and subjects), PBKDF2-hashed at seed time, MustChangePassword = true, threshold 0.5
+- [x] `database update` creates and seeds LocalDB
+- [x] Build ✔
 
 ## Phase 3 — Auth, infrastructure, layout
 - [ ] Services/PasswordHasher (PBKDF2-SHA256, 100k iterations, 16-byte salt, 32-byte hash, constant-time compare)
