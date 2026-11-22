@@ -69,9 +69,9 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 9 — Tests
-- [ ] FaceAttendanceSystem.Tests (MSTest, net472, classic csproj) added to solution
-- [ ] PasswordHasher, FaceMatcher, duplicate-attendance rule
-- [ ] vstest.console passes ✔
+- [x] FaceAttendanceSystem.Tests (MSTest, net472, classic csproj) added to solution
+- [x] PasswordHasher, FaceMatcher, duplicate-attendance rule
+- [x] vstest.console passes ✔ (37 tests)
 
 ## Phase 10 — Verify and document
 - [ ] Clean Debug + Release build
