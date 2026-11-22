@@ -45,8 +45,8 @@
                         else if (User.IsInRole("Teacher"))
                         {
                             @Html.NavLink("Dashboard", "Dashboard", "Teacher")
-                            @Html.NavLink("Start session", "Start", "Session")
-                            @Html.NavLink("History", "History", "Session")
+                            @Html.NavLink("Start session", "Start", "Session", "Start", "Live")
+                            @Html.NavLink("History", "History", "Session", "History", "Detail")
                             @Html.NavLink("Face enrollment", "Index", "Enrollment")
                             @Html.NavLink("Reports", "Index", "Reports")
                         }

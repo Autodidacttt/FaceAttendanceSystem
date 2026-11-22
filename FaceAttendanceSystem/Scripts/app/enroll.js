@@ -15,7 +15,7 @@
         saveUrl: root.getAttribute('data-save-url'),
         modelsUrl: root.getAttribute('data-models-url'),
         required: parseInt(root.getAttribute('data-required-samples'), 10) || 5,
-        minScore: 0.8,          // detector confidence needed for a sample
+        minScore: 0.6,          // detector confidence needed for a sample (TinyFaceDetector scores good faces ~0.6-0.9)
         minFaceFraction: 0.18,  // face box width / frame width (too small = too far away)
         captureGapMs: 700,      // time between samples, so they differ a little
         maxSpread: 0.6          // samples further apart than this are probably different people

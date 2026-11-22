@@ -8,6 +8,11 @@ body {
     background-color: #f5f7fa;
 }
 
+/* Bootstrap display utilities (d-flex etc.) would otherwise beat the hidden attribute. */
+[hidden] {
+    display: none !important;
+}
+
 .app-navbar {
     background-color: var(--app-primary);
 }
