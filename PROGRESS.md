@@ -24,14 +24,14 @@ Build after every phase with VS 2026 MSBuild (found via vswhere). Commit after e
 - [x] Build ✔
 
 ## Phase 3 — Auth, infrastructure, layout
-- [ ] Services/PasswordHasher (PBKDF2-SHA256, 100k iterations, 16-byte salt, 32-byte hash, constant-time compare)
-- [ ] AccountController: login (one page, redirects by role), POST logout, change password, forced change on first login
-- [ ] Lockout: 15 min after 5 failed logins
-- [ ] FormsAuthenticationTicket (user id + role) → `Application_PostAuthenticateRequest` → GenericPrincipal
-- [ ] Infrastructure: RoleAuthorize (403 for a signed-in user with the wrong role), AjaxValidateAntiForgery (header token), AuditLogger, MustChangePassword filter
-- [ ] Global filters: Authorize, RequireHttps, HandleError
-- [ ] `_Layout` with role-aware navbar, `_ViewStart`, `site.css`, 403/404/500 pages
-- [ ] Build ✔
+- [x] Services/PasswordHasher (PBKDF2-SHA256, 100k iterations, 16-byte salt, 32-byte hash, constant-time compare)
+- [x] AccountController: login (one page, redirects by role), POST logout, change password, forced change on first login
+- [x] Lockout: 15 min after 5 failed logins
+- [x] FormsAuthenticationTicket (user id + role) → `Application_PostAuthenticateRequest` → GenericPrincipal
+- [x] Infrastructure: RoleAuthorize (403 for a signed-in user with the wrong role), AjaxValidateAntiForgery (header token), AuditLogger, MustChangePassword filter
+- [x] Global filters: Authorize, RequireHttps, HandleError
+- [x] `_Layout` with role-aware navbar, `_ViewStart`, `site.css`, 403/404/500 pages
+- [x] Build ✔
 
 ## Phase 4 — Admin
 - [ ] Dashboard: totals, today's attendance %, 5 students with the lowest attendance

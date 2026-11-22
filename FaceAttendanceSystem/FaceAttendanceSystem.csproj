@@ -16,7 +16,7 @@
     <RootNamespace>FaceAttendanceSystem</RootNamespace>
     <AssemblyName>FaceAttendanceSystem</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
+    <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44357</IISExpressSSLPort>
@@ -237,6 +237,29 @@
     <EmbeddedResource Include="Migrations\202611220754472_Initial.resx">
       <DependentUpon>202611220754472_Initial.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Infrastructure\AccountStatusFilter.cs" />
+    <Compile Include="Infrastructure\AjaxValidateAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Infrastructure\AppPrincipal.cs" />
+    <Compile Include="Infrastructure\AuditLogger.cs" />
+    <Compile Include="Infrastructure\AuthCookie.cs" />
+    <Compile Include="Infrastructure\BaseController.cs" />
+    <Compile Include="Infrastructure\DisplayExtensions.cs" />
+    <Compile Include="Infrastructure\ErrorResults.cs" />
+    <Compile Include="Infrastructure\HtmlExtensions.cs" />
+    <Compile Include="Infrastructure\RoleAuthorizeAttribute.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Shared\_Flash.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

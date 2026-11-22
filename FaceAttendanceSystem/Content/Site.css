@@ -1,20 +1,114 @@
-﻿/* Set padding to keep content from hitting the edges */
-.body-content {
-    margin-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
+﻿/* FaceAttend site styles (on top of Bootstrap 5) */
+:root {
+    --app-primary: #1f4e79;
+    --app-primary-dark: #163a5a;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+body {
+    background-color: #f5f7fa;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.app-navbar {
+    background-color: var(--app-primary);
+}
+
+.app-navbar .nav-link.active {
+    font-weight: 600;
+    border-bottom: 2px solid rgba(255, 255, 255, .8);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+    --bs-btn-hover-bg: var(--app-primary-dark);
+    --bs-btn-hover-border-color: var(--app-primary-dark);
+    --bs-btn-active-bg: var(--app-primary-dark);
+}
+
+.card {
+    border: 0;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .08);
+}
+
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.stat-card .stat-label {
+    color: #6c757d;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.table thead th {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+.temp-password {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 1.4rem;
+    letter-spacing: .08em;
+    user-select: all;
+}
+
+/* Camera views: the overlay canvas sits exactly on top of the video. */
+.camera-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 4 / 3;
+    background: #111;
+    border-radius: .5rem;
+    overflow: hidden;
+}
+
+.camera-wrap video,
+.camera-wrap canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-wrap video {
+    transform: scaleX(-1); /* mirror, like a selfie camera */
+}
+
+.camera-status {
+    min-height: 1.5rem;
+}
+
+.sample-dots span {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    border-radius: 50%;
+    background: #dee2e6;
+}
+
+.sample-dots span.done {
+    background: #198754;
+}
+
+.present-list {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.present-list .list-group-item.flash {
+    animation: flash-in 1.2s ease-out;
+}
+
+@keyframes flash-in {
+    from { background-color: #d1e7dd; }
+    to { background-color: transparent; }
 }

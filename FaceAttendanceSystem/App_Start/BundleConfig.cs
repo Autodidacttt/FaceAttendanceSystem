@@ -1,30 +1,37 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace FaceAttendanceSystem
 {
     public class BundleConfig
     {
-        // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                "~/Scripts/jquery.validate.js",
+                "~/Scripts/jquery.validate.unobtrusive.js"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
+            // bootstrap.bundle includes Popper (needed for dropdowns).
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                "~/Scripts/bootstrap.bundle.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/Site.css"));
+
+            // face-api.js is large and already minified, so it is served as-is (no bundling).
+            bundles.Add(new Bundle("~/bundles/face-enroll").Include(
+                "~/Scripts/app/common.js",
+                "~/Scripts/app/camera.js",
+                "~/Scripts/app/enroll.js"));
+
+            bundles.Add(new Bundle("~/bundles/face-live").Include(
+                "~/Scripts/app/common.js",
+                "~/Scripts/app/camera.js",
+                "~/Scripts/app/liveness.js",
+                "~/Scripts/app/live-attendance.js"));
         }
     }
 }

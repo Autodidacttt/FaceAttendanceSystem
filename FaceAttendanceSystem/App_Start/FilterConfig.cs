@@ -1,5 +1,5 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using FaceAttendanceSystem.Infrastructure;
 
 namespace FaceAttendanceSystem
 {
@@ -8,6 +8,10 @@ namespace FaceAttendanceSystem
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new RequireHttpsAttribute());
+            // Every action requires a signed-in user unless marked [AllowAnonymous].
+            filters.Add(new RoleAuthorizeAttribute());
+            filters.Add(new AccountStatusFilter());
         }
     }
 }
